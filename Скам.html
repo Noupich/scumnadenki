@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>дайти деняк</title>
+    <style>
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', 'Comic Sans MS', cursive, sans-serif;
+            transition: background-color 0.6s ease;
+            padding: 16px;
+        }
+        #text {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px 8px;          /* небольшие отступы между буквами */
+            background-color: rgba(0, 0, 0, 0.1); /* лёгкая подложка для контраста, но фон перекроет */
+            padding: 30px 40px;
+            border-radius: 30px;
+            backdrop-filter: blur(1px);
+            box-shadow: 0 0 30px rgba(255,255,255,0.5);
+            max-width: 90vw;
+        }
+        .letter {
+            display: inline-block;
+            font-weight: 900;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.7);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            line-height: 1.2;
+            will-change: color, font-size;
+        }
+        .letter:contains(' ') {
+            min-width: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <div id="text"></div>
+
+    <script>
+        (function() {
+            const text = "дайти деняк";
+            const container = document.getElementById('text');
+            const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+            const randomColor = () => `hsl(${random(0, 360)}, 100%, 55%)`;
+            const randomSize = () => random(24, 72) + 'px';
+            function updateCrazyStyles() {
+                const letters = document.querySelectorAll('.letter');
+                letters.forEach(letter => {
+                    letter.style.color = randomColor();
+                    letter.style.fontSize = randomSize();
+                });
+                document.body.style.backgroundColor = `hsl(${random(0, 360)}, 95%, 60%)`;
+            }
+
+
+            for (let ch of text) {
+                const span = document.createElement('span');
+                span.className = 'letter';
+                span.textContent = ch;   // пробел остаётся пробелом
+                container.appendChild(span);
+            }
+            updateCrazyStyles();
+            setInterval(updateCrazyStyles, 2000);
+        })();
+    </script>
+</body>
+</html>
